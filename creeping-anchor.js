@@ -88,8 +88,8 @@
                 }
             } );
             if ( elements.length ) {
-                if ( _.currentSection && elements[ 0 ].attr( "id" ) == _.currentSection.attr( "id" ) ) return;
                 var section = $( elements[ 0 ].find( "a" ).attr( "href" ) );
+                if ( _.currentSection && section.attr( "id" ) == _.currentSection.attr( "id" ) ) return;
                 elements[ 0 ].addClass( "active-link" ).siblings().removeClass( "active-link" );
                 _.currentSection = section;
                 if ( options.onViewChange && typeof options.onViewChange === "function" ) {
