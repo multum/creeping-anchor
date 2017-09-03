@@ -88,7 +88,7 @@
                 }
             } );
             if ( elements.length ) {
-                if ( elements[ 0 ].attr( "id" ) == _.currentSection.attr( "id" ) ) return;
+                if ( _.currentSection && elements[ 0 ].attr( "id" ) == _.currentSection.attr( "id" ) ) return;
                 var section = $( elements[ 0 ].find( "a" ).attr( "href" ) );
                 elements[ 0 ].addClass( "active-link" ).siblings().removeClass( "active-link" );
                 _.currentSection = section;
