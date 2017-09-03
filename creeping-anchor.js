@@ -16,6 +16,7 @@
         }, opt );
         var _ = this;
         if ( !_.length ) return false;
+        _.currentSection = null;
         var speed = options.speed / 1000;
         var li = this.find( "li" );
         var line = document.createElement( "div" );
@@ -79,28 +80,27 @@
             return ( ( bounds.top <= viewport.bottom ) && ( bounds.bottom >= viewport.top ) );
         };
         var scrollEv = function () {
-            var scroll;
-            clearTimeout( scroll );
-            scroll = setTimeout( function () {
-                var elements = [];
-                li.each( function ( index, el, arr ) {
-                    var section = $( el ).find( "a" ).attr( "href" );
-                    if ( section != "#" && $( section ).length && detectWindow( $( section ) ) ) {
-                        elements.push( $( this ) );
-                    }
-                } );
-                if ( elements.length ) {
-                    var section = $( elements[ 0 ].find( "a" ).attr( "href" ) );
-                    elements[ 0 ].addClass( "active-link" ).siblings().removeClass( "active-link" );
-                    if ( options.onViewChange && typeof options.onViewChange === "function" ) {
-                        options.onViewChange.call( _, section );
-                    };
-                    _.init( elements[ 0 ] )();
-                } else {
-                    _.disable();
-                    li.removeClass( "active-link" )
+            var elements = [];
+            li.each( function ( index, el, arr ) {
+                var section = $( el ).find( "a" ).attr( "href" );
+                if ( section != "#" && $( section ).length && detectWindow( $( section ) ) ) {
+                    elements.push( $( this ) );
                 }
-            }, 0 )
+            } );
+            if ( elements.length ) {
+                if ( elements[ 0 ].attr( "id" ) == _.currentSection.attr( "id" ) ) return;
+                var section = $( elements[ 0 ].find( "a" ).attr( "href" ) );
+                elements[ 0 ].addClass( "active-link" ).siblings().removeClass( "active-link" );
+                _.currentSection = section;
+                if ( options.onViewChange && typeof options.onViewChange === "function" ) {
+                    options.onViewChange.call( _, section );
+                };
+                _.init( elements[ 0 ] )();
+            } else if ( _.currentSection ) {
+                _.disable();
+                li.removeClass( "active-link" );
+                _.currentSection = null;
+            }
         };
         if ( options.activeLinks ) {
             window.addEventListener( "scroll", function () {
