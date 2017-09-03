@@ -92,8 +92,8 @@
                 if ( elements.length ) {
                     var section = $( elements[ 0 ].find( "a" ).attr( "href" ) );
                     elements[ 0 ].addClass( "active-link" ).siblings().removeClass( "active-link" );
-                    if ( _.options.onViewChange && typeof _.options.onViewChange === "function" ) {
-                        _.options.onViewChange.call( _, section );
+                    if ( options.onViewChange && typeof options.onViewChange === "function" ) {
+                        options.onViewChange.call( _, section );
                     };
                     _.init( elements[ 0 ] )();
                 } else {
