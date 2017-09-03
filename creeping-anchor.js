@@ -11,7 +11,8 @@
             activeLinks: true,
             position: "top",
             offsetLeft: 0,
-            anchors: false
+            anchors: false,
+            onViewChange: null
         }, opt );
         var _ = this;
         if ( !_.length ) return false;
@@ -52,9 +53,8 @@
             var _ = this;
             if ( options.anchors === true ) {
                 li.find( "a" ).click( function ( e ) {
-                    
                     var section = $( this ).attr( "href" );
-                    if( section !== "#" && $(section).length ) e.preventDefault();
+                    if ( section !== "#" && $( section ).length ) e.preventDefault();
                     _.scrollTo( section, $( this ).data( "offset" ) )
                 } )
             }
@@ -91,7 +91,10 @@
                 } );
                 if ( elements.length ) {
                     var section = $( elements[ 0 ].find( "a" ).attr( "href" ) );
-                    elements[ 0 ].addClass( "active-link" ).siblings().removeClass( "active-link" )
+                    elements[ 0 ].addClass( "active-link" ).siblings().removeClass( "active-link" );
+                    if ( _.options.onViewChange && typeof _.options.onViewChange === "function" ) {
+                        _.options.onViewChange.call( _, section );
+                    };
                     _.init( elements[ 0 ] )();
                 } else {
                     _.disable();
