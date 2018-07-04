@@ -65,7 +65,7 @@
                 var offset = $( section ).offset().top;
                 var superOffset = offset + ( dataOffset || 0 );
 
-                $( 'body' ).animate( {
+                $( 'body, html' ).animate( {
                     scrollTop: superOffset
                 }, 400 )
             }
